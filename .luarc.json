@@ -1,0 +1,10 @@
+{
+  "workspace": {
+    "library": [
+      "/nix/store/d2id5wa6psihzsklvp7wf5psypr8vp7b-hyprland-0.55.0+date=2026-05-13_b034fa5/share/hypr/stubs"
+    ]
+  },
+  "diagnostics": {
+    "globals": ["hl"]
+  }
+}
