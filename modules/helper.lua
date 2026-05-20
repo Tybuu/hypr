@@ -21,6 +21,9 @@ function Change(pos)
 		if not active_pos then
 			error("Monitor description is invalid")
 		end
+		if Values.monitors[pos] == nil then
+			error("Invalid index")
+		end
 		hl.dispatch(hl.dsp.focus({ monitor = Values.monitors[pos].output }))
 		if active_pos ~= pos then
 			local res = parseRes(Values.monitors[pos].mode)
