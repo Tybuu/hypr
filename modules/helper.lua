@@ -34,3 +34,35 @@ function Change(pos)
 		end
 	end
 end
+
+function DisableMonitors(resolution)
+	-- Disabling all monitors without an active output causes hyprland to crash?
+	hl.notification.create({ text = resolution, duration = 10000 })
+	resolution = resolution or "1920x1080@60"
+	local res = hl.get_monitor("HEADLESS-2") ~= nil
+	for i, monitor in ipairs(Values.monitors) do
+		if i == 2 and res == false then
+			hl.exec_cmd("hyprctl output create headless HEADLESS-2")
+			hl.monitor({ output = "HEADLESS-2", mode = resolution })
+		end
+		hl.monitor({
+			output = monitor.output,
+			disabled = true,
+		})
+	end
+end
+
+function EnableMonitors()
+	hl.exec_cmd("hyprctl output remove HEADLESS-2")
+	for i, monitor in ipairs(Values.monitors) do
+		local newMon = {}
+		for k, v in pairs(monitor) do
+			newMon[k] = v
+		end
+		newMon["disabled"] = false
+		hl.monitor(newMon)
+		::continue::
+	end
+end
+
+function HeadlessAlive() end

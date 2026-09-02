@@ -24,7 +24,7 @@ M = {
 	},
 }
 
-local scratchMonitor = 1
+local scratchMonitor = 3
 function DisableSpecial()
 	local mon = hl.get_monitor(M.monitors[scratchMonitor].output)
 	local curMon = hl.get_active_monitor()
@@ -32,7 +32,7 @@ function DisableSpecial()
 		local i = string.find(mon.active_special_workspace.name, ":")
 		local workspace = string.sub(mon.active_special_workspace.name, i + 1)
 		hl.dispatch(hl.dsp.focus({ monitor = M.monitors[scratchMonitor].output }))
-		hl.notification.create({ text = workspace, duration = 2000 })
+		-- hl.notification.create({ text = workspace, duration = 2000 })
 		hl.dispatch(hl.dsp.workspace.toggle_special(workspace))
 	end
 	hl.dispatch(hl.dsp.focus({ monitor = curMon.name }))
@@ -56,25 +56,24 @@ local function toggle_command(workspace, command)
 end
 
 local mainMod = Values.mainMod
-hl.bind(mainMod .. " + W", DisableSpecial)
+hl.bind(mainMod .. " + W", hl.dsp.exec_cmd("playerctl play-pause"))
 hl.bind(mainMod .. " + comma", Change(1))
 hl.bind(mainMod .. " + period", Change(2))
--- hl.bind(mainMod .. " + slash", Change(3))
+hl.bind(mainMod .. " + slash", Change(3))
 
 hl.bind(mainMod .. " + SHIFT + comma", hl.dsp.window.move({ monitor = "DP-2", follow = true }))
 hl.bind(mainMod .. " + SHIFT + period", hl.dsp.window.move({ monitor = "DP-1", follow = true }))
--- hl.bind(mainMod .. " + SHIFT + slash", hl.dsp.window.move({ monitor = "HDMI-A-2", follow = true }))
+hl.bind(mainMod .. " + SHIFT + slash", hl.dsp.window.move({ monitor = "HDMI-A-2", follow = true }))
 hl.bind(
 	mainMod .. " + R",
 	toggle_command("music", function()
-		hl.dispatch(hl.dsp.exec_cmd("firefox -P gedisu --new-window https://music.youtube.com/"))
+		hl.dispatch(hl.dsp.exec_cmd("pear-desktop --enable-features=UseOzonePlatform --ozone-platform=wayland"))
 	end)
 )
 hl.bind(
 	mainMod .. " + Z",
 	toggle_command("scratch", function()
-		hl.dispatch(hl.dsp.exec_cmd("google-chrome-stable"))
-		hl.dispatch(hl.dsp.exec_cmd("foot"))
+		hl.dispatch(hl.dsp.exec_cmd("kitty"))
 	end)
 )
 

@@ -40,6 +40,21 @@ hl.window_rule({
 	},
 	float = true,
 })
+
+hl.window_rule({
+	match = { class = "net.shadps4.qtlauncher" },
+	workspace = (2 + mon) .. " silent",
+	immediate = true,
+})
+
+hl.window_rule({
+	match = { class = "gamescope" },
+	no_anim = true,
+	no_blur = true,
+	immediate = true,
+	rounding = 0,
+})
+
 hl.window_rule({
 	-- Fix some dragging issues with XWayland
 	name = "fix-xwayland-drags",

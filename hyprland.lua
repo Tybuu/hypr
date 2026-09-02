@@ -6,7 +6,7 @@ handle:close()
 
 _G.Values = {
 	mainMod = "SUPER",
-	terminal = "foot",
+	terminal = "kitty",
 	browser = "firefox",
 	menu = "wofi --show drun",
 }
