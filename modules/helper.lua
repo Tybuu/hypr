@@ -1,4 +1,4 @@
-local function parseRes(res)
+function ParseRes(res)
 	local x_pos = string.find(res, "x")
 	local at_pos = string.find(res, "@")
 	if at_pos == nil then
@@ -11,6 +11,7 @@ end
 
 function Change(pos)
 	return function()
+		print("hi")
 		local active = hl.get_active_monitor().name
 		local active_pos = nil
 		for i, monitor in ipairs(Values.monitors) do
@@ -18,18 +19,18 @@ function Change(pos)
 				active_pos = i
 			end
 		end
-		if not active_pos then
-			error("Monitor description is invalid")
-		end
+		-- if not active_pos then
+		-- 	error("Monitor description is invalid")
+		-- end
 		if Values.monitors[pos] == nil then
 			error("Invalid index")
 		end
 		hl.dispatch(hl.dsp.focus({ monitor = Values.monitors[pos].output }))
 		if active_pos ~= pos then
-			local res = parseRes(Values.monitors[pos].mode)
-			local loc = parseRes(Values.monitors[pos].position)
-			local x = loc.x + res.x / 2
-			local y = loc.y + res.y / 2
+			local res = ParseRes(Values.monitors[pos].mode)
+			local loc = ParseRes(Values.monitors[pos].position)
+			local x = loc.x + (res.x / Values.monitors[pos].scale) / 2
+			local y = loc.y + (res.y / Values.monitors[pos].scale) / 2
 			hl.dispatch(hl.dsp.cursor.move({ x = x, y = y }))
 		end
 	end
@@ -65,4 +66,30 @@ function EnableMonitors()
 	end
 end
 
-function HeadlessAlive() end
+function TwitchStream(name)
+	if not name or not name:match("^[%w_]+$") then
+		return
+	end
+
+	local chat_class = "twitch-chat-" .. name
+	local stream_title = "twitch-stream-" .. name
+	local profile_dir = "/tmp/" .. chat_class
+
+	hl.exec_cmd(
+		string.format(
+			"streamlink --title '%s' --twitch-low-latency --hls-live-edge=1 --player mpv twitch.tv/%s best",
+			stream_title,
+			name
+		)
+	)
+
+	hl.exec_cmd(
+		string.format(
+			"mkdir -p %s && firefox --new-instance -profile %s --name %s --new-window 'https://www.twitch.tv/popout/%s/chat'",
+			profile_dir,
+			profile_dir,
+			chat_class,
+			name
+		)
+	)
+end

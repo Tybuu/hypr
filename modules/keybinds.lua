@@ -39,10 +39,6 @@ hl.bind(mainMod .. " + SHIFT + down", hl.dsp.window.move({ direction = "down" })
 hl.bind(mainMod .. " + SHIFT + up", hl.dsp.window.move({ direction = "up" }))
 hl.bind(mainMod .. " + SHIFT + right", hl.dsp.window.move({ direction = "right" }))
 
-hl.bind(mainMod .. " + SHIFT + comma", hl.dsp.window.move({ monitor = "DP-2", follow = true }))
-hl.bind(mainMod .. " + SHIFT + period", hl.dsp.window.move({ monitor = "DP-1", follow = true }))
-hl.bind(mainMod .. " + SHIFT + slash", hl.dsp.window.move({ monitor = "HDMI-A-2", follow = true }))
-
 for i = 1, 10 do
 	local key = i % 10 -- 10 maps to key 0
 	hl.bind(mainMod .. " + " .. key, hl.dsp.focus({ workspace = i }))

@@ -19,7 +19,6 @@ end)
 -- General Settings
 hl.config({
 	exec_once = { "hyprpaper", "waybar" },
-
 	general = {
 		gaps_in = 5,
 		gaps_out = 20,
